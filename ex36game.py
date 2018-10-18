@@ -1,7 +1,43 @@
 ## Based on Sailors on the Starless Sea
+from random import randint
+from sys import exit
+
 player_inventory = []
 
 player_hp = 10
+
+player_damage = randint(0, 3)
+
+def dead(why):
+    print(why, "Your adventure is over!\n")
+    exit(0)
+
+def combat(enemy, enemy_hp, enemy_attack, enemy_damage):
+    sword = "Killblade"
+    global player_hp
+    while enemy_hp > 0:
+        player_damage = randint(1, 3)
+        print("\nYou face down the", enemy, "with", sword, "in your hand.")
+        print("\nSeeing your chance you lunge forwards and strike a blow!")
+        enemy_hp -= player_damage
+        print(">>>> enemy hp is", enemy_hp)
+
+        if enemy_hp > 0:
+            print("\nYour attack lands but the", enemy, "respond with a",
+            enemy_attack, ".")
+            print("You have taken damage!")
+            player_hp -= enemy_damage
+            print(">>>> Player hp is", player_hp)
+            if player_hp < 0:
+                dead("\nYou succumb to your wounds")
+            else:
+                print("\nThe fight continues!\n")
+                input("<Press Enter for the next turn!>")
+
+
+        else:
+            print("\nThe", enemy, "can fight no more. Victory!\n")
+
 
 def stairs_to_darkness():
     print("Stairs to darkness and end")
@@ -52,7 +88,7 @@ def road_to_keep():
     print("\nA grisly sight bars your way: a pair of bodies, secured to poles by",
     "long ropey vines.")
     print("Wicked vines have wormed their way inside the bodies’", "eyes,"
-    "ears, and mouths.")
+    " ears, and mouths.")
     print("\nTo your horror, you realize the bodies are still moving...")
     print("\nDo you attack the twitching corpses, or flee in terror?")
 
@@ -60,8 +96,13 @@ def road_to_keep():
 
     if "attack" in choice.lower() or "fight" in choice.lower():
         print("You fight!")
+        combat("vine corpses", 7, "thorny clawed fist", 1)
+        gatehouse()
+
     elif "flee" in choice.lower() or "run" in choice.lower():
-        print("You run!")
+        print("You run in terror. You are not the hero you hoped you were!\n")
+        dead("You fled")
+
     else:
         print("\nYou attempt to",choice.lower(), "but the enemy is upon you first!")
         global player_hp
