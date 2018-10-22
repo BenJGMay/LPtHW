@@ -7,6 +7,8 @@ player_inventory = []
 player_hp = 10
 player_damage = randint(0, 3)
 
+cache_found = False
+
 def dead(why):
     print(why, "Your adventure is over!\n")
     exit(0)
@@ -91,11 +93,69 @@ def charnel_ruins():
 
 #cache
 def cache():
+    global cache_found
     print("\n>>>> Hidden cache")
+
+    if cache_found == False:
+        print(">>>> Treasure!")
+
+
+        cache_found = True
+
+    else:
+        print("\nYou have already looted the hidden treasures here!")
 
 # courtyard
 def courtyard():
     print("\n>>>> Courtyard")
+
+    print("\nThe courtyard is overgrown with sickly weeds and thick brambles.",
+    "A deathly silence hangs in the air, as if even the frogs and insects are",
+    "afraid to draw attention to themselves.""The smell of rotting vegetation",
+    "pervasive, and the ground sucks at your boots with every tentative step.")
+
+    print("\nNearly all of the courtyard’s buildings have fallen into ruin. A single",
+    "burnt-out shell set against the keep’s east wall is the only remaining",
+    "structure. Set near the heart of the courtyard is a well, framed with",
+    "a crude pulley system. To the south-east is the keep’s sole standing tower.")
+
+    print("\nWhere would you like to go?")
+
+    while True:
+        choice = input("> ")
+
+        if choice.lower() == "gate" or choice.lower() == "gatehouse":
+
+            print("\nYou return to the keep's entrance, but with the portcullis",
+            "down you can see no easy way to exit. You retrace your steps.")
+
+            courtyard()
+
+        elif "well" in choice.lower() or "heart" in choice.lower():
+
+            well_of_souls()
+
+        elif choice.lower() == "east" or choice.lower() == "structure":
+
+            charnel_ruins()
+
+        elif (choice.lower() == "south-east" or choice.lower() == "south east"
+        or "tower" in choice.lower()):
+
+            tower_of_beasts()
+
+        elif ("look" or "search") in choice.lower():
+
+            cache()
+
+        else:
+
+            print("\nYou aren't sure how to get there")
+
+            print("\nWhere would you like to go?")
+
+
+
 
 def portcullis():
     global player_hp
@@ -125,7 +185,7 @@ def portcullis():
 
             print(">>>> Player hp is", player_hp)
 
-            gatehouse()
+            courtyard()
 
 # gatehouse
 def gatehouse():
