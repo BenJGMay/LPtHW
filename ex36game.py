@@ -4,10 +4,13 @@ from sys import exit
 
 
 player_inventory = []
-player_hp = 10
+player_hp = 12
 player_damage = randint(0, 3)
 
 cache_found = False
+charnel_ruins_entered = False
+well_visited = False
+tower_clear = False
 
 def dead(why):
     print(why, "Your adventure is over!\n")
@@ -46,58 +49,98 @@ def dead(why):
     print(why, "Your adventure is over!\n")
     exit(0)
 
-def combat(enemy, enemy_hp, enemy_attack, enemy_damage):
-    sword = "Killblade"
-    global player_hp
-    while enemy_hp > 0:
-        player_damage = randint(1, 3)
-        print("\nYou face down the", enemy, "with", sword, "in your hand.")
-        print("\nSeeing your chance you lunge forwards and strike a blow!")
-        enemy_hp -= player_damage
-        print(">>>> enemy hp is", enemy_hp)
-
-        if enemy_hp > 0:
-            print("\nYour attack lands but the", enemy, "respond with a",
-            enemy_attack, ".")
-            print("You have taken damage!")
-            player_hp -= enemy_damage
-            print(">>>> Player hp is", player_hp)
-            if player_hp < 0:
-                dead("\nYou succumb to your wounds")
-            else:
-                print("\nThe fight continues!\n")
-                input("<Press Enter for the next turn!>")
-
-
-        else:
-            print("\nThe", enemy, "can fight no more. Victory!\n")
-
-
 def stairs_to_darkness():
     print("\nStairs to darkness and end")
 
 def battlements():
     print("\n>>>> Battlements")
 
+def tower_nav():
+    print(">>>> Entering Tower Nav")
+    while True:
+        choice = input("> ")
+
+        if "leave" in choice.lower() or "courtyard" in choice.lower():
+            courtyard()
+
+        elif choice.lower() == "stairs":
+            battlements()
+
+
 def tower_of_beasts():
+    global player_hp, tower_clear
+
     print("\n>>>> Tower of beasts")
 
-def sinkhole():
-    print("\n>>>> Sinkhole")
+    if tower_clear == False:
+
+        print("\nYou see some horrid beastmen")
+
+        combat("beastmen", 10, "display of savage fury!", 2 )
+
+        tower_clear = True
+
+        if player_hp <= 5:
+            print("\n>>>> You are badly wounded and should so something")
+
+        elif player_hp >= 6:
+            print("\n>>>> You're doing ok.")
+
+
+        print("\n>>>> Having won you can look around the tower")
+
+        tower_nav()
+
+    else:
+
+        print(">>>> You return to the tower")
+
+        tower_nav()
+
+
 
 def well_of_souls():
+    global well_visited
     print("\n>>>> Well of souls")
 
+    if well_visited == False:
+
+        well_visited = True
+
+        print("You visit the well for the first time")
+
+    else:
+
+        print("You visit the well again.")
+
 def charnel_ruins():
+    global charnel_ruins_entered
     print("\n>>>> Charnel Ruins")
+
+    if charnel_ruins_entered == False:
+
+        charnel_ruins_entered = True
+
+        print(">>>> You enter for the first time.")
+
+    else:
+
+        print(">>>> You have been here.")
+
+
 
 #cache
 def cache():
-    global cache_found
+    global cache_found, player_inventory
     print("\n>>>> Hidden cache")
 
     if cache_found == False:
         print(">>>> Treasure!")
+
+        player_inventory.append("Stone Idol")
+        player_inventory.append("Green Powder")
+
+        print("You are currently carrying", player_inventory)
 
 
         cache_found = True
@@ -234,6 +277,23 @@ def gatehouse():
         else:
             print("You can't see a way to do that.")
 
+def blacksmith_sons():
+
+    print("Outside of heat of battle you are able to recognise the corpses",
+    "as the bodies of young Algor and Eldin, the sons of the village",
+    "blacksmith stolen from their home seven nights ago.")
+    print("\n The foul vines have desicrated their bodies. Investigating",
+    "further you find a small signet ring on the hand of Eldin.\nYou take",
+    "it resolving to return it to their father.")
+
+    player_inventory.append("Signet ring")
+    print("\n Signet ring added to inventory. You are currently carring",
+     player_inventory)
+
+    print("With a heavy heart you continue down the road to the keep.")
+
+    gatehouse()
+
 # road to the keep
 def road_to_keep():
     print(">>>> Road to keep")
@@ -264,20 +324,7 @@ def road_to_keep():
         print("You fight!")
         combat("vine corpses", 7, "thorny clawed fist", 1)
 
-        print("Outside of heat of battle you are able to recognise the corpses",
-        "as the bodies of young Algor and Eldin, the sons of the village",
-        "blacksmith stolen from their home seven nights ago.")
-        print("\n The foul vines have desicrated their bodies. Investigating",
-        "further you find a small signet ring on the hand of Eldin.\nYou take",
-        "it resolving to return it to their father.")
-
-        player_inventory.append("Signet ring")
-        print("\n Signet ring added to inventory. You are currently carring",
-         player_inventory)
-
-        print("With a heavy heart you continue down the road to the keep.")
-
-        gatehouse()
+        blacksmith_sons()
 
     elif "flee" in choice.lower() or "run" in choice.lower():
         print("You run in terror. You are not the hero you hoped you were!\n")
@@ -288,6 +335,9 @@ def road_to_keep():
         global player_hp
         player_hp -= 1
         print("\nDead limbs and thorns cut and wound you!")
+        combat("vine corpses", 7, "thorny clawed fist", 1)
+
+        blacksmith_sons()
 
 # Start of the game
 def start():
