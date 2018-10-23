@@ -11,6 +11,7 @@ cache_found = False
 charnel_ruins_entered = False
 well_visited = False
 tower_clear = False
+fountain_ooze = False
 
 def dead(why):
     print(why, "Your adventure is over!\n")
@@ -113,19 +114,107 @@ def well_of_souls():
 
         print("You visit the well again.")
 
+def fountain():
+    global fountain_ooze, player_inventory
+    print(">>>> Fountain")
+
+    if fountain_ooze == False:
+        print("Watch out for the oozes!")
+
+        combat("Black Oozlings", 10, "mass of hot tar", 2)
+
+        print("\nHaving escaped with your life you return to the courtyard")
+        courtyard()
+
+
+    else:
+        print("Fortunately there is no ooze!")
+
+        print("\nYou return to the courtyard.")
+        courtyard()
+
+
 def charnel_ruins():
-    global charnel_ruins_entered
+    global charnel_ruins_entered, fountain_ooze
     print("\n>>>> Charnel Ruins")
 
     if charnel_ruins_entered == False:
 
+        print("\nThis once-proud edifice has fallen into ruin like the rest of",
+        "the keep. All that remains of the building are fire-scarred high stone",
+        "walls and toad-faced gargoyles leering from above.")
+
+        print("\nThe singed, bronze doors—cast with hundreds of wailing demonic",
+        "faces—are barred from the outside. The portal is marked with a single",
+        "word drawn in flaking red paint: REPENT")
+
+        print("\nYou push the fear down inside you and make your way inside.")
+
         charnel_ruins_entered = True
 
-        print(">>>> You enter for the first time.")
+        print("\nSix charred skeletons lie about the chapel, some crushed by",
+        "burnt fallen beams. At the head of the chapel is a fountain depicting",
+        "a squat, demonic toad. A foul, black ichor seeps from the toad’s",
+        "broad lips, pooling in the basin seated at the foot of the fountain.")
+
+        print("\nIt is clear this slaughter happened long ago, but the stench",
+        "of charred flesh lingers in the hot air.")
+
+        print("\nWould you like to investigate further, or leave?")
+
+        while True:
+            choice = input("> ")
+
+            print(">>>>", choice)
+
+            if (choice.lower() == "y" or choice.lower() == "yes"
+            or choice.lower() == "investigate"):
+                fountain()
+
+            else:
+                print("\nYou return to the courtyard.")
+                courtyard()
+
+
+
+
+
 
     else:
 
-        print(">>>> You have been here.")
+        print("\n You return to the charred chapel")
+
+        if fountain_ooze == False:
+
+            print("\nSix charred skeletons lie about the chapel, some crushed by",
+            "burnt fallen beams. At the head of the chapel is a fountain depicting",
+            "a squat, demonic toad. A foul, black ichor seeps from the toad’s",
+            "broad lips, pooling in the basin seated at the foot of the fountain.")
+
+            print("\nIt is clear this slaughter happened long ago, but the stench",
+            "of charred flesh lingers in the hot air.")
+
+            print("\nWould you like to investigate further, or leave?")
+
+            while True:
+                choice = input("> ")
+
+                print(">>>>", choice)
+
+                if (choice.lower() == "y" or choice.lower() == "yes"
+                or choice.lower() == "investigate"):
+                    fountain()
+
+                else:
+                    print("\nYou return to the courtyard.")
+                    courtyard()
+
+            else:
+
+                print("\nHaving already investigated the chapel you return to",
+                "the courtyard.")
+                courtyard()
+
 
 
 
@@ -135,18 +224,36 @@ def cache():
     print("\n>>>> Hidden cache")
 
     if cache_found == False:
-        print(">>>> Treasure!")
+        print("\nTaking a careful look around you notice muddy footprints; the",
+        "tracks of man-sized creatures with hawklike talons.")
+
+        print("\nPulling away the dead brambles and matted weeds, you find a",
+        "long flagstone, half-buried in the muddy ground. Digging away the",
+        "rotting soil you are able to prise it up, revealing a secret cache",
+        "hidden beneath it")
+
+        print("\nA hide wrapped bundle has been secreted here. Unwrapping it you",
+        "discover a strange small stone idol depicting a many faced being.",
+        "Alongside it is a leather poch containing a strange green power")
+
+        print("\nYou take these items for yourself.")
+
 
         player_inventory.append("Stone Idol")
         player_inventory.append("Green Powder")
 
-        print("You are currently carrying", player_inventory)
+        print("\nYou are currently carrying", player_inventory)
 
 
         cache_found = True
 
+        print("\nWhere would you like to go?")
+
     else:
-        print("\nYou have already looted the hidden treasures here!")
+        print("\nYou almost stub your toe on the flagstone you pulled up but",
+        "there's no more treasure to be found here!")
+
+        print("\nWhere would you like to go?")
 
 # courtyard
 def courtyard():
@@ -281,7 +388,7 @@ def blacksmith_sons():
 
     print("Outside of heat of battle you are able to recognise the corpses",
     "as the bodies of young Algor and Eldin, the sons of the village",
-    "blacksmith stolen from their home seven nights ago.")
+    "blacksmith, stolen from their home seven nights ago.")
     print("\n The foul vines have desicrated their bodies. Investigating",
     "further you find a small signet ring on the hand of Eldin.\nYou take",
     "it resolving to return it to their father.")
@@ -385,3 +492,4 @@ def start():
 ### -----------------Game----------------------------------------
 
 start()
+#charnel_ruins()
