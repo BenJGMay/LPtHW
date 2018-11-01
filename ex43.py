@@ -19,27 +19,13 @@ class Engine(object):
         last_scene = self.scene_map.next_scene('finished')
 
         while current_scene != last_scene:
+            print(">>>> Top of While current scene =", current_scene)
             next_scene_name = current_scene.enter()
             current_scene = self.scene_map.next_scene(next_scene_name)
 
             # be sure to print out the last scene
             current_scene.enter()
 
-
-
-class Map(object):
-
-    def __init__(self, start_scene):
-        print(">>>>", start_scene)
-        pass
-
-    def next_scene(self, scene_name):
-        print(">>>>", scene_name)
-        pass
-
-    def opening_scene(self):
-        print(">>>> opening scene")
-        pass
 
 
 class Death(Scene):
@@ -50,11 +36,14 @@ class Death(Scene):
 class CentralCorridor(Scene):
 
     def enter(self):
+        print(">>>> Central Corridor")
+        return 'laser_weapon_armory'
         pass
 
 class LaserWeaponArmory(Scene):
 
     def enter(self):
+        print(">>>> Laser Weaon Armory")
         pass
 
 class TheBridge(Scene):
@@ -65,6 +54,39 @@ class TheBridge(Scene):
 class EscapePod(Scene):
 
     def enter(self):
+        pass
+
+class Finished(Scene):
+
+    def enter(self):
+        print("You won! Good job.")
+        return 'finished'
+
+
+class Map(object):
+
+    scenes = {
+    'central_corridor': CentralCorridor(),
+    'laser_weapon_armory': LaserWeaponArmory(),
+    'the_bridge': TheBridge(),
+    'escape_pod': EscapePod(),
+    'death': Death(),
+    'finished': Finished(),
+    }
+
+    def __init__(self, start_scene):
+        print(">>>>", start_scene)
+        self.start_scene = start_scene
+
+    def next_scene(self, scene_name):
+        val = Map.scenes.get(scene_name)
+        print(">>>>", scene_name)
+        return val
+        pass
+
+    def opening_scene(self):
+        print(">>>> opening scene")
+        return self.next_scene(self.start_scene)
         pass
 
 a_map = Map('central_corridor')
