@@ -1,5 +1,9 @@
 from sys import exit
 from combat import combat
+from combat import player_hp
+from combat import dead
+from random import randint
+from textwrap import dedent
 
 player_inventory = []
 
@@ -26,34 +30,128 @@ class Engine(object):
     #current_scene.enter()
 
 class StairsToDarkness(Scene):
-    pass
+    def enter(self):
+        pass
 
 class Battlements(Scene):
-    pass
+    def enter(self):
+        pass
 
 class TowerNav(Scene):
-    pass
+    def enter(self):
+        pass
 
 class TowerOfBeasts(Scene):
-    pass
+    def enter(self):
+        pass
 
 class WellOfSouls(Scene):
-    pass
+    def enter(self):
+        pass
 
 class CharnelRuins(Scene):
-    pass
+    def enter(self):
+        pass
 
 class Cache(Scene):
-    pass
+    def enter(self):
+        pass
 
-class Cortyard(Scene):
-    pass
+class Courtyard(Scene):
+    def enter(self):
+        print("Courtyard")
+        pass
 
 class Portcullis(Scene):
-    pass
+    def enter(self):
+
+        global player_hp
+        print("\n>>>> Portculis falls")
+
+
+        print(dedent("""
+        As you duck under the portcullis there is a horrible  bestial howling
+        from above and the portcullis comes crashing down on you!
+        """))
+
+        chance_of_survival = randint(1, 3)
+
+        print(">>>> Chance of survival =", chance_of_survival)
+
+        if chance_of_survival == 1:
+            dead("The portcullis crashes down on you, crushing you to death.")
+
+        else:
+            player_hp -= 2
+
+            if player_hp < 0:
+                print("\nYou are pinned by the portcullis.",
+                "Your existing wounds are made worse.")
+                dead("You bleed out.")
+
+            else:
+                print(dedent("""
+                The portculis rakes your back, but you just manage to make it to
+                the other side without being crushed.
+                """))
+
+                print(">>>> Player hp is", player_hp)
+
+                return 'courtyard'
+
 
 class Gatehouse(Scene):
-    pass
+    def enter(self):
+
+        print(dedent("""
+        The dark, moss-eaten gatehouse towers above you, grim and forbidding.
+        Murder holes, fashioned in the likeness of looming toads, threaten to
+        gout forth flaming oil and tar. Black arrow slits pierce the high stone
+        walls You can hear the flap of the heretical banner above, hidden from
+        sight by the vine-draped battlements.
+
+        The ancient drawbridge has long since fallen away into ruin, leaving only
+        a few rotting planks placed across the ditch. The heavy iron portcullis
+        stands half-raised, the rusty spikes a mere four feet above slots cut
+        into the stone floor.
+        """))
+
+        print("\nDo you wish to enter, ducking under the portcullis?")
+
+        while True:
+            choice = input('> ')
+
+            if choice.lower() == "y" or choice.lower() == "yes":
+                print("\nYou crouch down and attempt to ease your way in under the",
+                "portcullis")
+                return 'portcullis'
+
+            elif (choice.lower() == "n" or choice.lower() == "no"
+            or choice.lower() == "listen" or choice.lower == "look"):
+
+                print(dedent("""
+                You pause, sensing danger. You focus your senses and take note
+                of an animalistic sniffling sound and the scratch of claws on
+                stone coming from the gatehouse above.
+
+                Realising the threat you hurl yourself at great speed under the
+                wicked spikes. You reach the other side and the portculllis
+                slams shut behind you. A great bell tolls from inside the
+                gatehouse. The enemy knows you are here, but you have evaded
+                their trap.
+
+                The keep's courtyard stretches out before you.
+                """))
+
+                return 'courtyard'
+
+            elif "flee" in choice.lower() or "run" in choice.lower():
+                print("You run in terror. You are not the hero you hoped you were!\n")
+                dead("You fled")
+
+            else:
+                print("You can't see a way to do that.")
+
 
 class BlacksmithSons(Scene):
     def enter(self):
@@ -101,6 +199,7 @@ class RoadToKeep(Scene):
         if "attack" in choice.lower() or "fight" in choice.lower():
             print("You fight!")
             combat("vine corpses", 7, "thorny clawed fist", 1)
+            from combat import player_hp
 
             return 'sons'
 
@@ -114,33 +213,37 @@ class RoadToKeep(Scene):
             player_hp -= 1
             print("\nDead limbs and thorns cut and wound you!")
             combat("vine corpses", 7, "thorny clawed fist", 1)
+            from combat import player_hp
 
             return 'sons'
 
 class Start(Scene):
 
     def enter(self):
-        print('\nYou stand before a ruined keep which squats atop a low craggy hill.')
-        print('Its walls of toppled stone and massive granite blocks hint at',
-        'forgotten battles and the clash of mighty armies.')
-        print('Now the ruins seem host only to creeping vines and the foul miasma',
-        'that drifts down from the keep.\n')
+        print(dedent("""
+            You stand before a ruined keep which squats atop a low craggy hill.
+            Its walls of toppled stone and massive granite blocks hint at
+            forgotten battles and the clash of mighty armies. Now the ruins seem
+            host only to creeping vines and the foul miasma that drifts down
+            from the keep.
 
-        print('The air is overun with pestilence.')
-        print('Fat flies bite at you incessantly, and clouds of small black insects',
-        'choke your every breath.')
-        print('The long-abandoned land is strangled with thorny vines that drape',
-        'the sickly trees and hang from the ruined walls.')
-        print('There is an odor of rot and decay, as if the hill itself were',
-        'decomposing from within.\n')
+            The air is overun with pestilence. Fat flies bite at you
+            incessantly, and clouds of small black insects choke your every
+            breath. Fat flies bite at you incessantly, and clouds of small black
+            insects choke your every breath.
 
-        print('A sight gives you pause: a ragged banner, depciting a crimson skull',
-        'on a black field, stands high atop the ruined walls.')
+            The long-abandoned land is strangled with thorny vines that drape the
+             sickly trees and hang from the ruined walls. There is an odor of
+             rot and decay, as if the hill itself were decomposing from within.
 
-        print('You take a deep breath and ready your weapons. The time for',
-        'retribution has come.')
-        print('Whatever horror lurks within has terrorised you and your village',
-        'for far too long.')
+             A sight gives you pause: a ragged banner, depciting a crimson skull
+             on a black field, stands high atop the ruined walls.
+
+             You take a deep breath and ready your weapons. The time for
+             retribution has come. Whatever horror lurks within has terrorised
+             you and your village for far too long.
+             """))
+
         print("\nAn old dirt road, now overrun with weeds and sickly vines, rises",
         "towards the ruined citadel.")
         print('\nDo you walk the road up to the keep?')
@@ -166,6 +269,8 @@ class Map(object):
     'road': RoadToKeep(),
     'sons': BlacksmithSons(),
     'gatehouse': Gatehouse(),
+    'portcullis': Portcullis(),
+    'courtyard': Courtyard(),
     'finished': Finished(),
     }
 
