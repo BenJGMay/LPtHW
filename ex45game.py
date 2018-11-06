@@ -57,10 +57,65 @@ class Cache(Scene):
     def enter(self):
         pass
 
+
+
 class Courtyard(Scene):
     def enter(self):
-        print("Courtyard")
-        pass
+
+        print("\n>>>> Courtyard")
+
+        print(dedent("""
+        The courtyard is overgrown with sickly weeds and thick bramblesself.
+        A deathly silence hangs in the air, as if even the frogs and insects are
+        afraid to draw attention to themselves. The smell of rotting vegetation
+        is pervasive, and the ground sucks at your boots with every tentative
+        step.
+
+        Nearly all of the courtyard’s buildings have fallen into ruin. A single
+        burnt-out shell set against the keep’s east wall is the only remaining
+        structure. Set near the heart of the courtyard is a well, framed with a
+        crude pulley system. To the south-east is the keep’s sole standing tower.
+
+        Where would you like to go?
+        """))
+
+        while True:
+            choice = input("> ")
+
+            if choice.lower() == "gate" or choice.lower() == "gatehouse":
+
+                print(dedent("""
+                You return to the keep's entrance, but with the portcullis down
+                you can see no easy way to exit. You retrace your steps.
+                """))
+
+                return 'courtyard'
+
+            elif "well" in choice.lower() or "heart" in choice.lower():
+
+                return 'well'
+
+            elif choice.lower() == "east" or choice.lower() == "structure":
+
+                return 'ruins'
+
+            elif (choice.lower() == "south-east" or choice.lower() == "south east"
+            or "tower" in choice.lower()):
+
+                return 'tower'
+
+            elif ("look" or "search") in choice.lower():
+
+                return 'cache'
+
+            else:
+
+                print(dedent("""
+                You aren't sure how to get there.")
+
+                Where would you like to go?
+                """))
+
 
 class Portcullis(Scene):
     def enter(self):
@@ -85,8 +140,10 @@ class Portcullis(Scene):
             player_hp -= 2
 
             if player_hp < 0:
-                print("\nYou are pinned by the portcullis.",
-                "Your existing wounds are made worse.")
+                print(dedent("""
+                You are pinned by the portcullis.
+                Your existing wounds are made worse.
+                """))
                 dead("You bleed out.")
 
             else:
@@ -122,8 +179,10 @@ class Gatehouse(Scene):
             choice = input('> ')
 
             if choice.lower() == "y" or choice.lower() == "yes":
-                print("\nYou crouch down and attempt to ease your way in under the",
-                "portcullis")
+                print(dedent("""
+                \nYou crouch down and attempt to ease your way in under the
+                portcullis.
+                """))
                 return 'portcullis'
 
             elif (choice.lower() == "n" or choice.lower() == "no"
@@ -156,15 +215,18 @@ class Gatehouse(Scene):
 class BlacksmithSons(Scene):
     def enter(self):
 
-        print("Outside of heat of battle you are able to recognise the corpses",
-        "as the bodies of young Algor and Eldin, the sons of the village",
-        "blacksmith, stolen from their home seven nights ago.")
-        print("\n The foul vines have desicrated their bodies. Investigating",
-        "further you find a small signet ring on the hand of Eldin.\nYou take",
-        "it resolving to return it to their father.")
+        print(dedent("""
+        Outside of heat of battle you are able to recognise the corpses as the
+        bodies of young Algor and Eldin, the sons of the village blacksmith
+        stolen from their home seven nights ago. The foul vines have desicrated
+        their bodies.
+
+        Investigating further you find a small signet ring on the
+        hand of Eldin.You take it, resolving to return it to their father.
+        """))
 
         player_inventory.append("Signet ring")
-        print("\n Signet ring added to inventory. You are currently carring",
+        print("\nSignet ring added to inventory. You are currently carring",
         player_inventory)
 
         print("With a heavy heart you continue down the road to the keep.")
@@ -174,10 +236,12 @@ class BlacksmithSons(Scene):
 
 class RoadToKeep(Scene):
     def enter(self):
-        print('\n As you walk down the road you take stock of your situation.')
-        print('You are the only one in your village brave enough to strike against',
-        'the evil that steals your kinfolk in the night.')
-        print('You alone hold the blade known to the world as...\n')
+        print(dedent("""
+        As you walk down the road you take stock of your situation.
+        You are the only one in your village brave enough to strike against
+        the evil that steals your kinfolk in the night. You alone hold the blade
+        known to the world as...\n
+        """))
 
         global sword
         sword = input('> ')
@@ -186,13 +250,15 @@ class RoadToKeep(Scene):
         print("\nIndeed, the mighty sword", sword, "gives you strength.",
         "You know you must prevail. For the sake of your village.")
 
-        print("\nYou come to a stop.")
-        print("\nA grisly sight bars your way: a pair of bodies, secured to poles by",
-        "long ropey vines.")
-        print("Wicked vines have wormed their way inside the bodies’", "eyes,"
-        " ears, and mouths.")
-        print("\nTo your horror, you realize the bodies are still moving...")
-        print("\nDo you attack the twitching corpses, or flee in terror?")
+        print(dedent("""
+        You come to a stop. A grisly sight bars your way: a pair of corpses,
+        secured to poles by long ropey vines.The foul vegitation has wormed its
+        way inside the bodies' eyes, ears, and mouths.
+
+        To your horror, you realize the bodies are still moving...
+
+        Do you attack the twitching corpses, or flee in terror?
+        """))
 
         choice = input('> ')
 
@@ -227,26 +293,28 @@ class Start(Scene):
             host only to creeping vines and the foul miasma that drifts down
             from the keep.
 
-            The air is overun with pestilence. Fat flies bite at you
-            incessantly, and clouds of small black insects choke your every
-            breath. Fat flies bite at you incessantly, and clouds of small black
-            insects choke your every breath.
+            The air is overun with pestilence. Fat flies bite at you incessantly,
+            and clouds of small black insects choke your every breath. Fat flies
+            bite at you incessantly, and clouds of small black insects choke your
+            every breath.
 
             The long-abandoned land is strangled with thorny vines that drape the
-             sickly trees and hang from the ruined walls. There is an odor of
-             rot and decay, as if the hill itself were decomposing from within.
+            sickly trees and hang from the ruined walls. There is an odor of
+            rot and decay, as if the hill itself were decomposing from within.
+            A sight gives you pause: a ragged banner, depciting a crimson skull
+            on a black field, stands high atop the ruined walls.
 
-             A sight gives you pause: a ragged banner, depciting a crimson skull
-             on a black field, stands high atop the ruined walls.
+            You take a deep breath and ready your weapons. The time for
+            retribution has come. Whatever horror lurks within has terrorised
+            you and your village for far too long.
+            """))
 
-             You take a deep breath and ready your weapons. The time for
-             retribution has come. Whatever horror lurks within has terrorised
-             you and your village for far too long.
-             """))
+        print(dedent("""
+        An old dirt road, now overrun with weeds and sickly vines, rises towards
+        the ruined citadel.
 
-        print("\nAn old dirt road, now overrun with weeds and sickly vines, rises",
-        "towards the ruined citadel.")
-        print('\nDo you walk the road up to the keep?')
+        Do you walk the road up to the keep?
+        """))
 
         while True:
             choice = input('> ')
@@ -271,6 +339,10 @@ class Map(object):
     'gatehouse': Gatehouse(),
     'portcullis': Portcullis(),
     'courtyard': Courtyard(),
+    'well': WellOfSouls(),
+    'tower': TowerOfBeasts(),
+    'cache': Cache(),
+    'ruins': CharnelRuins(),
     'finished': Finished(),
     }
 
