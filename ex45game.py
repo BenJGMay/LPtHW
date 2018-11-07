@@ -7,6 +7,13 @@ from textwrap import dedent
 
 player_inventory = []
 
+cache_found = False
+charnel_ruins_entered = False
+well_visited = False
+tower_clear = False
+fountain_ooze = False
+fled_ooze = False
+
 class Scene(object):
 
     def enter(self):
@@ -39,23 +46,307 @@ class Battlements(Scene):
 
 class TowerNav(Scene):
     def enter(self):
-        pass
+
+        print(">>>> Entering Tower Nav")
+        while True:
+            choice = input("> ")
+
+            if "leave" in choice.lower() or "courtyard" in choice.lower():
+
+                return 'courtyard'
+
+            elif choice.lower() == "stairs":
+
+                return 'battlements'
 
 class TowerOfBeasts(Scene):
     def enter(self):
-        pass
+
+        global player_hp, tower_clear
+
+        print("\n>>>> Tower of beasts")
+
+        if tower_clear == False:
+
+            print("\nYou see some horrid beastmen")
+
+            combat("beastmen", 10, "display of savage fury!", 2 )
+
+            from combat import playuer_hp
+
+            tower_clear = True
+
+            if player_hp <= 5:
+                print("\n>>>> You are badly wounded and should so something")
+
+            elif player_hp >= 6:
+                print("\n>>>> You're doing ok.")
+
+
+            print("\n>>>> Having won you can look around the tower")
+
+            return 'tower nav'
+
+        else:
+
+            print(">>>> You return to the tower")
+
+            return 'tower nav'
 
 class WellOfSouls(Scene):
     def enter(self):
-        pass
+
+        global well_visited
+        print("\n>>>> Well of souls")
+
+        if well_visited == False:
+
+            well_visited = True
+
+            print("You visit the well for the first time")
+
+            return 'courtyard'
+
+        else:
+
+            print("You visit the well again.")
+
+            return 'courtyard'
+
+class Fountain(Scene):
+    def enter(self):
+
+        global fountain_ooze, fled_ooze, player_inventory
+
+        print(">>>> Fountain")
+
+        if fountain_ooze == False:
+            print(dedent("""
+            As you move forwards you can see that the toad fountain is adorned
+            with red gemstone eyes and jeweled fangs within the loathsome maw.
+
+            The ooze in the fountain bubbles and then suddenly lurches outwards,
+            animated by some unknown force. Splitting into several strange
+            shapes it moves towards you with evil intent...
+
+            What will you do?
+            """))
+
+            while True:
+                choice = input("> ")
+
+                print(">>>>", choice)
+
+                if (choice.lower() == "attack" or choice.lower() == "fight"):
+
+                    combat("Black Oozlings", 10, "mass of hot tar", 3)
+
+                    print(dedent("""
+                    Having escaped with your life you decide you deserve a
+                    little reward. You spend half an hour or so prying away at
+                    the fountain and make yourself several gemstones richer,
+                    before returning to the courtyard.
+                    """))
+
+                    fountain_ooze = True
+
+                    player_inventory.append("Red gemstones")
+
+                    return 'courtyard'
+
+                elif "powder" in choice:
+
+                    print(dedent("""
+                    You hurl the green powder at the strange oozes. They errupt
+                    into flames, thrash around and then melt away.
+
+                    Pleased with yourself you decide you deserve a little
+                    reward. You spend half an hour or so prying away at the
+                    fountain and make yourself several gemstones richer, before
+                    returning to the courtyard.
+                    """))
+
+                    fountain_ooze = True
+
+                    player_inventory.append("Red gemstones")
+
+                    return 'courtyard'
+
+                #elif:
+                #    choice.lower() == "flee" or choice.lower() == "run":
+
+                #    print(dedent("""
+                #    You flee from the ooze, dashing back to the courtyard.
+                #    """))
+
+                #    fled_ooze == "True"
+
+                else:
+                    print("\nYou attempt to",choice.lower(),
+                    "but the enemy is upon you first!")
+
+                    combat("Black Oozlings", 10, "mass of hot tar", 3)
+
+                    print(dedent("""
+                    Having escaped with your life you decide you deserve a
+                    little reward. You spend half an hour or so prying away at
+                    the fountain and make yourself several gemstones richer,
+                    before returning to the courtyard.
+                    """))
+
+                    fountain_ooze = True
+
+                    player_inventory.append("Red gemstones")
+
+                    return 'courtyard'
+
+
+
+
+
+
+
+        else:
+            print("Fortunately there is no ooze!")
+
+            print("\nYou return to the courtyard.")
+
+            return 'courtyard'
+
 
 class CharnelRuins(Scene):
     def enter(self):
-        pass
+        global charnel_ruins_entered, fountain_ooze
+
+        print("\n>>>> Charnel Ruins")
+
+        if charnel_ruins_entered == False:
+
+            print(dedent("""
+            This once-proud edifice has fallen into ruin like the rest of the
+            keep. All that remains of the building are fire-scarred high stone
+            walls and toad-faced gargoyles leering from above. The singed,
+            bronze doors—cast with hundreds of wailing demonic faces—are barred
+            from the outside. The portal is marked with a single word drawn in
+            flaking red paint: 'REPENT')
+
+            You push the fear down inside you and make your way inside.
+            """))
+
+            charnel_ruins_entered = True
+
+            print(dedent("""
+            Six charred skeletons lie about the chapel, some crushed by burnt
+            fallen beams. At the head of the chapel is a fountain depicting a
+            squat, demonic toad. A foul, black ichor seeps from the toad’s broad
+            lips, pooling in the basin seated at the foot of the fountain.
+
+            It is clear this slaughter happened long ago, but the stench of
+            charred flesh lingers in the hot air.
+
+            Would you like to investigate further, or leave?
+            """))
+
+            while True:
+                choice = input("> ")
+
+                print(">>>>", choice)
+
+                if (choice.lower() == "y" or choice.lower() == "yes"
+                or choice.lower() == "investigate"):
+
+                    return 'fountain'
+
+                else:
+                    print("\nYou return to the courtyard.")
+
+                    return 'courtyard'
+
+        else:
+
+            print("\nYou return to the charred chapel")
+
+            if fountain_ooze == False:
+
+                print(dedent("""
+                Six charred skeletons lie about the chapel, some crushed by
+                burnt fallen beams. At the head of the chapel is a fountain
+                depicting a squat, demonic toad. A foul, black ichor seeps from
+                the toad’s broad lips, pooling in the basin seated at the foot
+                of the fountain.
+
+                It is clear this slaughter happened long ago, but the stench of
+                charred flesh lingers in the hot air.
+
+                Would you like to investigate further, or leave?"""))
+
+                while True:
+                    choice = input("> ")
+
+                    print(">>>>", choice)
+
+                    if (choice.lower() == "y" or choice.lower() == "yes"
+                    or choice.lower() == "investigate"):
+                        return 'fountain'
+
+                    else:
+                        print("\nYou return to the courtyard.")
+                        return 'courtyard'
+
+                else:
+
+                    print(dedent("""
+                    Having already investigated the chapel you return to the
+                    courtyard.
+                    """))
+
+                    return 'courtyard'
+
+
+
+
 
 class Cache(Scene):
     def enter(self):
-        pass
+        global cache_found, player_inventory
+
+        print("\n>>>> Hidden cache")
+
+        if cache_found == False:
+            print(dedent("""
+            Taking a careful look around you notice muddy footprints; the
+            tracks of man-sized creatures with hawklike talons.
+
+            Pulling away the dead brambles and matted weeds, you find a long
+            flagstone, half-buried in the muddy ground. Digging away the rotting
+            soil you are able to prise it up, revealing a secret cache hidden
+            beneath it.
+
+            A hide wrapped bundle has been secreted here. Unwrapping it you
+            discover a strange small stone idol depicting a many faced being.
+            Alongside it is a leather poch containing a strange green power.
+
+            You take these items for yourself.
+            """))
+
+
+            player_inventory.append("Stone Idol")
+            player_inventory.append("Green Powder")
+
+            print("\nYou are currently carrying", player_inventory)
+
+
+            cache_found = True
+
+            return 'courtyard'
+
+        else:
+            print(dedent("""
+            You almost stub your toe on the flagstone you pulled up but there's
+            no more treasure to be found here!
+            """))
+
+            return 'courtyard'
 
 
 
@@ -99,7 +390,8 @@ class Courtyard(Scene):
 
                 return 'ruins'
 
-            elif (choice.lower() == "south-east" or choice.lower() == "south east"
+            elif (choice.lower() == "south-east"
+            or choice.lower() == "south east"
             or "tower" in choice.lower()):
 
                 return 'tower'
@@ -167,10 +459,10 @@ class Gatehouse(Scene):
         walls You can hear the flap of the heretical banner above, hidden from
         sight by the vine-draped battlements.
 
-        The ancient drawbridge has long since fallen away into ruin, leaving only
-        a few rotting planks placed across the ditch. The heavy iron portcullis
-        stands half-raised, the rusty spikes a mere four feet above slots cut
-        into the stone floor.
+        The ancient drawbridge has long since fallen away into ruin, leaving
+        only a few rotting planks placed across the ditch. The heavy iron
+        portcullis stands half-raised, the rusty spikes a mere four feet above
+        slots cut into the stone floor.
         """))
 
         print("\nDo you wish to enter, ducking under the portcullis?")
@@ -205,7 +497,8 @@ class Gatehouse(Scene):
                 return 'courtyard'
 
             elif "flee" in choice.lower() or "run" in choice.lower():
-                print("You run in terror. You are not the hero you hoped you were!\n")
+                print("You run in terror",
+                "You are not the hero you hoped you were!\n")
                 dead("You fled")
 
             else:
@@ -270,11 +563,14 @@ class RoadToKeep(Scene):
             return 'sons'
 
         elif "flee" in choice.lower() or "run" in choice.lower():
-            print("You run in terror. You are not the hero you hoped you were!\n")
+            print("You flee in terror.",
+            "You are not the hero you hoped you were!\n")
             dead("You fled")
 
         else:
-            print("\nYou attempt to",choice.lower(), "but the enemy is upon you first!")
+            print("\nYou attempt to",choice.lower(),
+            "but the enemy is upon you first!")
+
             global player_hp
             player_hp -= 1
             print("\nDead limbs and thorns cut and wound you!")
@@ -298,8 +594,8 @@ class Start(Scene):
             bite at you incessantly, and clouds of small black insects choke your
             every breath.
 
-            The long-abandoned land is strangled with thorny vines that drape the
-            sickly trees and hang from the ruined walls. There is an odor of
+            The long-abandoned land is strangled with thorny vines that drape
+            the sickly trees and hang from the ruined walls. There is an odor of
             rot and decay, as if the hill itself were decomposing from within.
             A sight gives you pause: a ragged banner, depciting a crimson skull
             on a black field, stands high atop the ruined walls.
@@ -341,8 +637,11 @@ class Map(object):
     'courtyard': Courtyard(),
     'well': WellOfSouls(),
     'tower': TowerOfBeasts(),
+    'tower nav': TowerNav(),
     'cache': Cache(),
     'ruins': CharnelRuins(),
+    'fountain': Fountain(),
+    'battlements': Battlements(),
     'finished': Finished(),
     }
 
