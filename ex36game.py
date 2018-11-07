@@ -1,6 +1,7 @@
 ## Based on Sailors on the Starless Sea
 from random import randint
 from sys import exit
+from combat import combat
 
 
 player_inventory = []

@@ -103,15 +103,87 @@ class WellOfSouls(Scene):
 
             well_visited = True
 
-            print("You visit the well for the first time")
+            print(dedent("""
+            A barren ridge of black stone rises from the overgrown courtyard.
+            A low stone wall marked with eerie sigils is built atop the crest of
+            the stone, marking a well. A stout block and tackle frame supports a
+            single thick chain that plunges into the inky blackness. A soft moan
+            rises from the well, like a faint cry for help.
+
+            Will you peer into the well?
+            """))
+
+            while True:
+                choice = input("> ")
+
+                print(">>>>", choice)
+
+                if (choice.lower() == "yes" or choice.lower() == "y"):
+
+                    print(dedent("""
+                    You peer over the lip of the well into a gaping abyss. Your
+                    mind struggles to comprehend the infinite oblivion before
+                    you.
+                    """))
+
+                    chance_of_survival = randint(1, 3)
+
+                    print(">>>> Chance of survival =", chance_of_survival)
+
+                    if chance_of_survival == 1:
+                        dead("Your mind snaps utterly under the strain.")
+
+                    else:
+                        from combat import player_hp
+                        player_hp -= 2
+
+                        if player_hp < 0:
+                            print(dedent("""
+                            In your weakened state you cannot resist the call of
+                            oblivion. You slip forwards and fall into
+                            the darkness.
+
+                            Forever.
+                            """))
+                            dead("You fall for an eternity")
+
+                        else:
+                            from combat import player_hp
+                            print(dedent("""
+                            A sense of your own insignificance threatens to
+                            overcome you, but you fight it back. This well is
+                            evil and you resolve to leave it alone.
+                            """))
+
+                            print(">>>> Player hp is", player_hp)
+
+                            return 'courtyard'
+
+                else:
+                    print(dedent("""
+                    A sense of your own insignificance threatens to
+                    overcome you, but you fight it back. This well is
+                    evil and you resolve to leave it alone.
+                    """))
+
+                    return 'courtyard'
+
+
 
             return 'courtyard'
 
         else:
 
-            print("You visit the well again.")
+            print(dedent("""
+            You cannot resist returning to the well. It calls to you and you
+            slip forwards and fall into the darkness.
 
-            return 'courtyard'
+            Forever.
+            """))
+
+            dead("You fall for an eternity")
+
+            #return 'courtyard'
 
 class Fountain(Scene):
     def enter(self):
