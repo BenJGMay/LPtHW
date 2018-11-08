@@ -14,11 +14,13 @@ tower_clear = False
 fountain_ooze = False
 fled_ooze = False
 
+
 class Scene(object):
 
     def enter(self):
         print("\n This scene", self, "has not been implimented yet.")
         exit(1)
+
 
 class Engine(object):
 
@@ -33,16 +35,19 @@ class Engine(object):
             next_scene_name = current_scene.enter()
             current_scene = self.scene_map.next_scene(next_scene_name)
 
-    #and to print the final scene
-    #current_scene.enter()
+    # and to print the final scene
+    # current_scene.enter()
+
 
 class StairsToDarkness(Scene):
     def enter(self):
         pass
 
+
 class Battlements(Scene):
     def enter(self):
         pass
+
 
 class TowerNav(Scene):
     def enter(self):
@@ -59,6 +64,7 @@ class TowerNav(Scene):
 
                 return 'battlements'
 
+
 class TowerOfBeasts(Scene):
     def enter(self):
 
@@ -66,11 +72,11 @@ class TowerOfBeasts(Scene):
 
         print("\n>>>> Tower of beasts")
 
-        if tower_clear == False:
+        if tower_clear is False:
 
             print("\nYou see some horrid beastmen")
 
-            combat("beastmen", 10, "display of savage fury!", 2 )
+            combat("beastmen", 10, "display of savage fury!", 2)
 
             from combat import playuer_hp
 
@@ -82,7 +88,6 @@ class TowerOfBeasts(Scene):
             elif player_hp >= 6:
                 print("\n>>>> You're doing ok.")
 
-
             print("\n>>>> Having won you can look around the tower")
 
             return 'tower nav'
@@ -93,22 +98,23 @@ class TowerOfBeasts(Scene):
 
             return 'tower nav'
 
+
 class WellOfSouls(Scene):
     def enter(self):
 
         global well_visited
         print("\n>>>> Well of souls")
 
-        if well_visited == False:
+        if well_visited is False:
 
             well_visited = True
 
             print(dedent("""
             A barren ridge of black stone rises from the overgrown courtyard.
-            A low stone wall marked with eerie sigils is built atop the crest of
-            the stone, marking a well. A stout block and tackle frame supports a
-            single thick chain that plunges into the inky blackness. A soft moan
-            rises from the well, like a faint cry for help.
+            A low stone wall marked with eerie sigils is built atop the crest
+            of the stone, marking a well. A stout block and tackle frame
+            supports a single thick chain that plunges into the inky blackness.
+            A soft moan rises from the well, like a faint cry for help.
 
             Will you peer into the well?
             """))
@@ -139,8 +145,8 @@ class WellOfSouls(Scene):
 
                         if player_hp < 0:
                             print(dedent("""
-                            In your weakened state you cannot resist the call of
-                            oblivion. You slip forwards and fall into
+                            In your weakened state you cannot resist the call
+                            of oblivion. You slip forwards and fall into
                             the darkness.
 
                             Forever.
@@ -168,8 +174,6 @@ class WellOfSouls(Scene):
 
                     return 'courtyard'
 
-
-
             return 'courtyard'
 
         else:
@@ -177,13 +181,13 @@ class WellOfSouls(Scene):
             print(dedent("""
             You cannot resist returning to the well. It calls to you and you
             slip forwards and fall into the darkness.
-
             Forever.
             """))
 
             dead("You fall for an eternity")
 
-            #return 'courtyard'
+            # return 'courtyard'
+
 
 class Fountain(Scene):
     def enter(self):
@@ -192,14 +196,14 @@ class Fountain(Scene):
 
         print(">>>> Fountain")
 
-        if fountain_ooze == False:
+        if fountain_ooze is False:
+
             print(dedent("""
             As you move forwards you can see that the toad fountain is adorned
             with red gemstone eyes and jeweled fangs within the loathsome maw.
-
-            The ooze in the fountain bubbles and then suddenly lurches outwards,
-            animated by some unknown force. Splitting into several strange
-            shapes it moves towards you with evil intent...
+            The ooze in the fountain bubbles and then suddenly lurches
+            outwards, animated by some unknown force. Splitting into several
+            strange shapes it moves towards you with evil intent...
 
             What will you do?
             """))
@@ -231,7 +235,6 @@ class Fountain(Scene):
                     print(dedent("""
                     You hurl the green powder at the strange oozes. They errupt
                     into flames, thrash around and then melt away.
-
                     Pleased with yourself you decide you deserve a little
                     reward. You spend half an hour or so prying away at the
                     fountain and make yourself several gemstones richer, before
@@ -244,7 +247,7 @@ class Fountain(Scene):
 
                     return 'courtyard'
 
-                #elif:
+                # elif:
                 #    choice.lower() == "flee" or choice.lower() == "run":
 
                 #    print(dedent("""
@@ -254,8 +257,8 @@ class Fountain(Scene):
                 #    fled_ooze == "True"
 
                 else:
-                    print("\nYou attempt to",choice.lower(),
-                    "but the enemy is upon you first!")
+                    print("\nYou attempt to", choice.lower(),
+                          "but the enemy is upon you first!")
 
                     combat("Black Oozlings", 10, "mass of hot tar", 3)
 
@@ -272,12 +275,6 @@ class Fountain(Scene):
 
                     return 'courtyard'
 
-
-
-
-
-
-
         else:
             print("Fortunately there is no ooze!")
 
@@ -292,7 +289,7 @@ class CharnelRuins(Scene):
 
         print("\n>>>> Charnel Ruins")
 
-        if charnel_ruins_entered == False:
+        if charnel_ruins_entered is False:
 
             print(dedent("""
             This once-proud edifice has fallen into ruin like the rest of the
@@ -310,8 +307,9 @@ class CharnelRuins(Scene):
             print(dedent("""
             Six charred skeletons lie about the chapel, some crushed by burnt
             fallen beams. At the head of the chapel is a fountain depicting a
-            squat, demonic toad. A foul, black ichor seeps from the toad’s broad
-            lips, pooling in the basin seated at the foot of the fountain.
+            squat, demonic toad. A foul, black ichor seeps from the toad’s
+            broad lips, pooling in the basin seated at the foot of the
+            fountain.
 
             It is clear this slaughter happened long ago, but the stench of
             charred flesh lingers in the hot air.
@@ -324,8 +322,8 @@ class CharnelRuins(Scene):
 
                 print(">>>>", choice)
 
-                if (choice.lower() == "y" or choice.lower() == "yes"
-                or choice.lower() == "investigate"):
+                if (choice.lower() == "y" or choice.lower() == "yes" or
+                    choice.lower() == "investigate"):
 
                     return 'fountain'
 
@@ -335,10 +333,9 @@ class CharnelRuins(Scene):
                     return 'courtyard'
 
         else:
-
             print("\nYou return to the charred chapel")
 
-            if fountain_ooze == False:
+            if fountain_ooze is False:
 
                 print(dedent("""
                 Six charred skeletons lie about the chapel, some crushed by
@@ -357,12 +354,14 @@ class CharnelRuins(Scene):
 
                     print(">>>>", choice)
 
-                    if (choice.lower() == "y" or choice.lower() == "yes"
-                    or choice.lower() == "investigate"):
+                    if (choice.lower() == "y" or choice.lower() == "yes" or
+                        choice.lower() == "investigate"):
+
                         return 'fountain'
 
                     else:
                         print("\nYou return to the courtyard.")
+
                         return 'courtyard'
 
                 else:
@@ -375,38 +374,33 @@ class CharnelRuins(Scene):
                     return 'courtyard'
 
 
-
-
-
 class Cache(Scene):
     def enter(self):
         global cache_found, player_inventory
 
         print("\n>>>> Hidden cache")
 
-        if cache_found == False:
+        if cache_found is False:
+
             print(dedent("""
             Taking a careful look around you notice muddy footprints; the
             tracks of man-sized creatures with hawklike talons.
 
             Pulling away the dead brambles and matted weeds, you find a long
-            flagstone, half-buried in the muddy ground. Digging away the rotting
-            soil you are able to prise it up, revealing a secret cache hidden
-            beneath it.
+            flagstone, half-buried in the muddy ground. Digging away the
+            rotting soil you are able to prise it up, revealing a secret
+            cache hidden beneath it.
 
             A hide wrapped bundle has been secreted here. Unwrapping it you
             discover a strange small stone idol depicting a many faced being.
             Alongside it is a leather poch containing a strange green power.
-
             You take these items for yourself.
             """))
-
 
             player_inventory.append("Stone Idol")
             player_inventory.append("Green Powder")
 
             print("\nYou are currently carrying", player_inventory)
-
 
             cache_found = True
 
@@ -421,7 +415,6 @@ class Cache(Scene):
             return 'courtyard'
 
 
-
 class Courtyard(Scene):
     def enter(self):
 
@@ -429,15 +422,16 @@ class Courtyard(Scene):
 
         print(dedent("""
         The courtyard is overgrown with sickly weeds and thick bramblesself.
-        A deathly silence hangs in the air, as if even the frogs and insects are
-        afraid to draw attention to themselves. The smell of rotting vegetation
-        is pervasive, and the ground sucks at your boots with every tentative
-        step.
+        A deathly silence hangs in the air, as if even the frogs and insects
+        are afraid to draw attention to themselves. The smell of rotting
+        vegetation is pervasive, and the ground sucks at your boots with
+        every tentative step.
 
         Nearly all of the courtyard’s buildings have fallen into ruin. A single
         burnt-out shell set against the keep’s east wall is the only remaining
         structure. Set near the heart of the courtyard is a well, framed with a
-        crude pulley system. To the south-east is the keep’s sole standing tower.
+        crude pulley system. Off to the south-east is the keep’s sole
+        standing tower.
 
         Where would you like to go?
         """))
@@ -462,9 +456,9 @@ class Courtyard(Scene):
 
                 return 'ruins'
 
-            elif (choice.lower() == "south-east"
-            or choice.lower() == "south east"
-            or "tower" in choice.lower()):
+            elif (choice.lower() == "south-east" or
+                  choice.lower() == "south east" or
+                  "tower" in choice.lower()):
 
                 return 'tower'
 
@@ -476,7 +470,6 @@ class Courtyard(Scene):
 
                 print(dedent("""
                 You aren't sure how to get there.")
-
                 Where would you like to go?
                 """))
 
@@ -486,7 +479,6 @@ class Portcullis(Scene):
 
         global player_hp
         print("\n>>>> Portculis falls")
-
 
         print(dedent("""
         As you duck under the portcullis there is a horrible  bestial howling
@@ -512,8 +504,8 @@ class Portcullis(Scene):
 
             else:
                 print(dedent("""
-                The portculis rakes your back, but you just manage to make it to
-                the other side without being crushed.
+                The portculis rakes your back, but you just manage to make it
+                to the other side without being crushed.
                 """))
 
                 print(">>>> Player hp is", player_hp)
@@ -549,8 +541,8 @@ class Gatehouse(Scene):
                 """))
                 return 'portcullis'
 
-            elif (choice.lower() == "n" or choice.lower() == "no"
-            or choice.lower() == "listen" or choice.lower == "look"):
+            elif (choice.lower() == "n" or choice.lower() == "no" or
+                  choice.lower() == "listen" or choice.lower == "look"):
 
                 print(dedent("""
                 You pause, sensing danger. You focus your senses and take note
@@ -569,8 +561,9 @@ class Gatehouse(Scene):
                 return 'courtyard'
 
             elif "flee" in choice.lower() or "run" in choice.lower():
-                print("You run in terror",
-                "You are not the hero you hoped you were!\n")
+                print(dedent("""
+                You run in terror. You are not the hero you hoped you were!
+                """))
                 dead("You fled")
 
             else:
@@ -592,7 +585,7 @@ class BlacksmithSons(Scene):
 
         player_inventory.append("Signet ring")
         print("\nSignet ring added to inventory. You are currently carring",
-        player_inventory)
+              player_inventory)
 
         print("With a heavy heart you continue down the road to the keep.")
 
@@ -604,8 +597,8 @@ class RoadToKeep(Scene):
         print(dedent("""
         As you walk down the road you take stock of your situation.
         You are the only one in your village brave enough to strike against
-        the evil that steals your kinfolk in the night. You alone hold the blade
-        known to the world as...\n
+        the evil that steals your kinfolk in the night. You alone hold the
+        blade known to the world as...
         """))
 
         global sword
@@ -613,14 +606,13 @@ class RoadToKeep(Scene):
         player_inventory.append(sword)
 
         print("\nIndeed, the mighty sword", sword, "gives you strength.",
-        "You know you must prevail. For the sake of your village.")
+              "You know you must prevail. For the sake of your village.")
 
         print(dedent("""
         You come to a stop. A grisly sight bars your way: a pair of corpses,
         secured to poles by long ropey vines.The foul vegitation has wormed its
-        way inside the bodies' eyes, ears, and mouths.
-
-        To your horror, you realize the bodies are still moving...
+        way inside the bodies' eyes, ears, and mouths. To your horror, you
+        realize the bodies are still moving...
 
         Do you attack the twitching corpses, or flee in terror?
         """))
@@ -628,6 +620,7 @@ class RoadToKeep(Scene):
         choice = input('> ')
 
         if "attack" in choice.lower() or "fight" in choice.lower():
+
             print("You fight!")
             combat("vine corpses", 7, "thorny clawed fist", 1)
             from combat import player_hp
@@ -635,13 +628,15 @@ class RoadToKeep(Scene):
             return 'sons'
 
         elif "flee" in choice.lower() or "run" in choice.lower():
-            print("You flee in terror.",
-            "You are not the hero you hoped you were!\n")
+
+            print(dedent("""
+            You flee in terror. You are not the hero you hoped you were!
+            """))
             dead("You fled")
 
         else:
-            print("\nYou attempt to",choice.lower(),
-            "but the enemy is upon you first!")
+            print("\nYou attempt to", choice.lower(),
+                  "but the enemy is upon you first!")
 
             global player_hp
             player_hp -= 1
@@ -651,24 +646,26 @@ class RoadToKeep(Scene):
 
             return 'sons'
 
+
 class Start(Scene):
 
     def enter(self):
         print(dedent("""
             You stand before a ruined keep which squats atop a low craggy hill.
             Its walls of toppled stone and massive granite blocks hint at
-            forgotten battles and the clash of mighty armies. Now the ruins seem
-            host only to creeping vines and the foul miasma that drifts down
-            from the keep.
+            forgotten battles and the clash of mighty armies. Now the ruins
+            seem host only to creeping vines and the foul miasma that drifts
+            down from the keep.
 
-            The air is overun with pestilence. Fat flies bite at you incessantly,
-            and clouds of small black insects choke your every breath. Fat flies
-            bite at you incessantly, and clouds of small black insects choke your
-            every breath.
+            The air is overun with pestilence. Fat flies bite at you
+            incessantly, and clouds of small black insects choke your every
+            breath.
 
             The long-abandoned land is strangled with thorny vines that drape
-            the sickly trees and hang from the ruined walls. There is an odor of
-            rot and decay, as if the hill itself were decomposing from within.
+            the sickly trees and hang from the ruined walls. There is an odor
+            of rot and decay, as if the hill itself were decomposing from
+            within.
+
             A sight gives you pause: a ragged banner, depciting a crimson skull
             on a black field, stands high atop the ruined walls.
 
@@ -678,8 +675,8 @@ class Start(Scene):
             """))
 
         print(dedent("""
-        An old dirt road, now overrun with weeds and sickly vines, rises towards
-        the ruined citadel.
+        An old dirt road, now overrun with weeds and sickly vines, rises
+        towards the ruined citadel.
 
         Do you walk the road up to the keep?
         """))
@@ -689,33 +686,37 @@ class Start(Scene):
 
             if choice.lower() == "y" or choice.lower() == "yes":
                 return 'road'
-                ###Go to road road()
+                # Go to road road()
 
             else:
-                print("You stand there catching your breath.",
-                "There is only one path forward.")
+                print(dedent("""
+                You stand there catching your breath There is only one path
+                forward.
+                """))
+
 
 class Finished(Scene):
     pass
 
+
 class Map(object):
 
     scenes = {
-    'start': Start(),
-    'road': RoadToKeep(),
-    'sons': BlacksmithSons(),
-    'gatehouse': Gatehouse(),
-    'portcullis': Portcullis(),
-    'courtyard': Courtyard(),
-    'well': WellOfSouls(),
-    'tower': TowerOfBeasts(),
-    'tower nav': TowerNav(),
-    'cache': Cache(),
-    'ruins': CharnelRuins(),
-    'fountain': Fountain(),
-    'battlements': Battlements(),
-    'finished': Finished(),
-    }
+            'start': Start(),
+            'road': RoadToKeep(),
+            'sons': BlacksmithSons(),
+            'gatehouse': Gatehouse(),
+            'portcullis': Portcullis(),
+            'courtyard': Courtyard(),
+            'well': WellOfSouls(),
+            'tower': TowerOfBeasts(),
+            'tower nav': TowerNav(),
+            'cache': Cache(),
+            'ruins': CharnelRuins(),
+            'fountain': Fountain(),
+            'battlements': Battlements(),
+            'finished': Finished(),
+            }
 
     def __init__(self, start_scene):
         self.start_scene = start_scene
