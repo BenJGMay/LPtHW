@@ -19,7 +19,7 @@ player_attacks = [
 
 
 def dead(why):
-    print(why, ". Your adventure is over!\n")
+    print(why, "Your adventure is over!\n")
     exit(0)
 
 
@@ -44,7 +44,7 @@ def combat(enemy: str = "enemy", enemy_hp: int = 5,
             print(">>>> Player hp is", player_hp)
 
             if player_hp <= 0:
-                dead("\nYou succumb to your wounds")
+                dead("\nYou succumb to your wounds.")
             else:
                 print("\nThe fight continues!\n")
                 input("<Press Enter for the next turn!>")

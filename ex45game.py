@@ -1,7 +1,7 @@
 from sys import exit
-from combat import combat
-from combat import player_hp
-from combat import dead
+from combat import combat, player_hp, dead
+# from combat import player_hp
+# from combat import dead
 from random import randint
 from textwrap import dedent
 
@@ -41,12 +41,54 @@ class Engine(object):
 
 class StairsToDarkness(Scene):
     def enter(self):
-        pass
+
+        print(dedent("""
+        You walk down the spooky stairs. This module is over.
+        """))
+
+        exit(1)
 
 
 class Battlements(Scene):
     def enter(self):
-        pass
+
+        print(">>>> Entering Battlements")
+
+        print(dedent("""
+        You walk up on the battlements. They're not very exciting. You walk
+        along them a bit and then see some stairs down to another part of
+        the keep.
+
+        Would you like to walk down the stairs?
+        """))
+
+        while True:
+            choice = input("> ")
+
+            if choice.lower() == "yes" or choice.lower() == "y":
+
+                print(dedent("""
+                You head to the stairs going down..
+                """))
+
+                return "stairs"
+
+            elif choice.lower() == "no" or choice.lower() == "n":
+
+                print(dedent("""
+                You decide to stay on the battlements.
+
+                Where would you like to go?
+                """))
+
+            else:
+
+                print(dedent("""
+                Seeing no other real option you head back along the battlements
+                and down into the tower you came from.
+                """))
+
+                return 'tower'
 
 
 class TowerNav(Scene):
@@ -54,13 +96,20 @@ class TowerNav(Scene):
 
         print(">>>> Entering Tower Nav")
         while True:
+
+            print(dedent("""
+            You stand in the tower. There are some stairs go up.
+
+            Where would you like to go?
+            """))
+
             choice = input("> ")
 
             if "leave" in choice.lower() or "courtyard" in choice.lower():
 
                 return 'courtyard'
 
-            elif choice.lower() == "stairs":
+            elif choice.lower() == "stairs" or choice.lower() == "up":
 
                 return 'battlements'
 
@@ -78,7 +127,7 @@ class TowerOfBeasts(Scene):
 
             combat("beastmen", 10, "display of savage fury!", 2)
 
-            from combat import playuer_hp
+            from combat import player_hp
 
             tower_clear = True
 
@@ -103,7 +152,6 @@ class WellOfSouls(Scene):
     def enter(self):
 
         global well_visited
-        print("\n>>>> Well of souls")
 
         if well_visited is False:
 
@@ -287,7 +335,6 @@ class CharnelRuins(Scene):
     def enter(self):
         global charnel_ruins_entered, fountain_ooze
 
-        print("\n>>>> Charnel Ruins")
 
         if charnel_ruins_entered is False:
 
@@ -418,8 +465,6 @@ class Cache(Scene):
 class Courtyard(Scene):
     def enter(self):
 
-        print("\n>>>> Courtyard")
-
         print(dedent("""
         The courtyard is overgrown with sickly weeds and thick bramblesself.
         A deathly silence hangs in the air, as if even the frogs and insects
@@ -478,7 +523,6 @@ class Portcullis(Scene):
     def enter(self):
 
         global player_hp
-        print("\n>>>> Portculis falls")
 
         print(dedent("""
         As you duck under the portcullis there is a horrible  bestial howling
@@ -487,10 +531,10 @@ class Portcullis(Scene):
 
         chance_of_survival = randint(1, 3)
 
-        print(">>>> Chance of survival =", chance_of_survival)
+    #    print(">>>> Chance of survival =", chance_of_survival)
 
         if chance_of_survival == 1:
-            dead("The portcullis crashes down on you, crushing you to death.")
+            dead("The portcullis crushes you to death.")
 
         else:
             player_hp -= 2
@@ -536,7 +580,7 @@ class Gatehouse(Scene):
 
             if choice.lower() == "y" or choice.lower() == "yes":
                 print(dedent("""
-                \nYou crouch down and attempt to ease your way in under the
+                You crouch down and attempt to ease your way in under the
                 portcullis.
                 """))
                 return 'portcullis'
@@ -715,6 +759,7 @@ class Map(object):
             'ruins': CharnelRuins(),
             'fountain': Fountain(),
             'battlements': Battlements(),
+            'stairs': StairsToDarkness(),
             'finished': Finished(),
             }
 
