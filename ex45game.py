@@ -43,7 +43,11 @@ class StairsToDarkness(Scene):
     def enter(self):
 
         print(dedent("""
-        You walk down the spooky stairs. This module is over.
+        You pause for an instant on the broad stone steps. The hint of gold
+        glimmers at the edge of your light, several steps below. You make your
+        way down into the darkness and further adventure.
+
+        This module is over.
         """))
 
         exit(1)
@@ -55,9 +59,10 @@ class Battlements(Scene):
         print(">>>> Entering Battlements")
 
         print(dedent("""
-        You walk up on the battlements. They're not very exciting. You walk
-        along them a bit and then see some stairs down to another part of
-        the keep.
+        The spiral staircase takes you up the tower and out onto the
+        battlementsm which are in poor shape. Carefully moving along them you
+        come to another suriving tower. Broad stone steps head down into the
+        darkness.
 
         Would you like to walk down the stairs?
         """))
@@ -94,11 +99,18 @@ class Battlements(Scene):
 class TowerNav(Scene):
     def enter(self):
 
-        print(">>>> Entering Tower Nav")
+#        print(">>>> Entering Tower Nav")
         while True:
 
             print(dedent("""
-            You stand in the tower. There are some stairs go up.
+            You stand in the tower. With horror you realise that the dark
+            shapes strung up on spiked chains are your fellow villages, each of
+            them dead.
+
+            The walls are covered with gore soaked furls and rotting hides. As
+            you investigate waves of fleas and lice scatter from your path.
+
+            It seems the only other exit is to go up the spiral staircase.
 
             Where would you like to go?
             """))
@@ -123,7 +135,24 @@ class TowerOfBeasts(Scene):
 
         if tower_clear is False:
 
-            print("\nYou see some horrid beastmen")
+            print(dedent("""
+            Flanked by crumbling stone walls, the moss-covered tower stands
+            proud despite the ravages of time. A tall, rust-bound portal bars
+            the tower’s sole entrance, watched over by a leering demonic
+            gargoyle. Rings of deep arrow slits pierce the thick walls and
+            overarching battlements loom high above.
+
+            You gently ease the portal open and make your way inside.
+
+            The hot stench of rot rolls from the tower, raising bile in
+            the back of your throat. The floor of the wide tower is covered
+            in rotting hides of cattle, sheep and men. A narrow staircase
+            spirals around the tower wall. Dark forms hang from chains spiked
+            through the wall—surely these are your fellow countrymen!
+
+            A pack of snarling beast-men slowly emerges from the shadows,
+            bloody spears clutched in their gnarled hands!
+            """))
 
             combat("beastmen", 10, "display of savage fury!", 2)
 
@@ -135,15 +164,17 @@ class TowerOfBeasts(Scene):
                 print("\n>>>> You are badly wounded and should so something")
 
             elif player_hp >= 6:
-                print("\n>>>> You're doing ok.")
+                print("You're doing ok.")
 
-            print("\n>>>> Having won you can look around the tower")
+            print(dedent("""Having defeated the feral monstrosities you are
+            able to catch your breath and view your surroundings.
+            """))
 
             return 'tower nav'
 
         else:
 
-            print(">>>> You return to the tower")
+            print("You return to the tower")
 
             return 'tower nav'
 
@@ -170,7 +201,7 @@ class WellOfSouls(Scene):
             while True:
                 choice = input("> ")
 
-                print(">>>>", choice)
+#                print(">>>>", choice)
 
                 if (choice.lower() == "yes" or choice.lower() == "y"):
 
@@ -242,7 +273,7 @@ class Fountain(Scene):
 
         global fountain_ooze, fled_ooze, player_inventory
 
-        print(">>>> Fountain")
+#        print(">>>> Fountain")
 
         if fountain_ooze is False:
 
@@ -259,7 +290,7 @@ class Fountain(Scene):
             while True:
                 choice = input("> ")
 
-                print(">>>>", choice)
+#                print(">>>>", choice)
 
                 if (choice.lower() == "attack" or choice.lower() == "fight"):
 
@@ -283,6 +314,7 @@ class Fountain(Scene):
                     print(dedent("""
                     You hurl the green powder at the strange oozes. They errupt
                     into flames, thrash around and then melt away.
+
                     Pleased with yourself you decide you deserve a little
                     reward. You spend half an hour or so prying away at the
                     fountain and make yourself several gemstones richer, before
@@ -344,7 +376,7 @@ class CharnelRuins(Scene):
             walls and toad-faced gargoyles leering from above. The singed,
             bronze doors—cast with hundreds of wailing demonic faces—are barred
             from the outside. The portal is marked with a single word drawn in
-            flaking red paint: 'REPENT')
+            flaking red paint: 'REPENT'
 
             You push the fear down inside you and make your way inside.
             """))
@@ -514,7 +546,7 @@ class Courtyard(Scene):
             else:
 
                 print(dedent("""
-                You aren't sure how to get there.")
+                You aren't sure how to get there.)
                 Where would you like to go?
                 """))
 
