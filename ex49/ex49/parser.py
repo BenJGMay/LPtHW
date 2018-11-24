@@ -87,7 +87,7 @@ def parse_sentence(word_list):
     return Sentence(subj, verb, obj)
 
 if __name__ == "__main__":
-    x = parse_sentence([('verb', 'run'), ('direction', 'north')])
+    x = parse_sentence()
     print("Sentence is 'run north'")
     print('Verb is', x.verb)
     print("Object is", x.object)
